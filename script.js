@@ -1,65 +1,76 @@
-computerScore = 0;
-playerScore = 0;
-playCount = 0;
+const buttons = document.querySelectorAll("button");
 
+buttons.forEach(function(button){
+    button.addEventListener("click",function(){
+        let player = button.value;
+        let computer = computerSelection();
+        let result = playRound(player,computer); 
+    });  
+});
 
+function computerSelection(){
+    let choices = ["Rock","papers","Scissor"]
+    let randomNumber = choices[Math.floor(Math.random()*choices.length)];
+    const comp = document.querySelector(".comp")
+    comp.textContent = `${randomNumber}`;
+    return randomNumber;
 
-
-function getComputerSelection(){
-let choices =["Rock", "papers", "Scissor"];
-let randomNumber = choices[Math.floor(Math.random()*choices.length)];
- return randomNumber;
 }
-document.body.innerHTML = getComputerSelection()
-const computerSelection = getComputerSelection()
-const playerSelection = prompt("Enter your Choice Rock ,Paper,Scissor");
 
-function playerRound(computerSelection,playerSelection){
+playerScore = 0;
+computerScore =0;
+
+const game = document.querySelector(".Game")
+const Result = document.querySelector(".result");
+const player = document.querySelector(".Player");
+
+
+function playRound(computerSelection,playerSelection){
     if(computerSelection === playerSelection){
-        console.log("its a tie");
+        Result.textContent = "it's a tie";
     }
     else if(
         computerSelection === "papers" && playerSelection === "Rock"||
         computerSelection === "Scissor" && playerSelection === "papers"||
         playerSelection === "Scissor" &&  computerSelection === "Rock"
     ){
-        computerScore++;
-         
-        console.log("computer has won 1 point");
+        ++computerScore;
+        Result.textContent = "computer +1";
+        game.textContent = `COMP_SCORE :${computerScore}`
+
      
-    }else if(playCount === 1){
-        console.log(playerSelection++)
-       }else if(playCount === 5){
-          setGameOver();
-       }
+    }
     
     else if(
         computerSelection === "Rock"  && playerSelection === "papers"||
         computerSelection === "papers"  && playerSelection === "Scissor"||
         computerSelection === "Scissor" && playerSelection === "Rock"
     ){
-        playerScore++;
-        console.log("You have won 1 point")
+        playerScore++
+        Result.textContent = "player +1"
+        player.textContent =`PLAYER_SCORE: ${playerScore}`;
+        setGameOver();
        
-       
-    }else{
-        console.log("recheck your Choice Please")
-    }
    
     }
-    playCount++;
-    console.log(playerRound(playerSelection,computerSelection));
-    console.log(playerScore||computerScore);
-   
-     function setGameOver(){
-        playerSelection.disabled = true;
-        computerSelection.disabled = true;
-        if(computerScore > playerScore){
-            console.log("Computer has Won".computerScore);
-        }else{
-            console.log("You have won".playerScore);
-        }
-     }
-     console.log(setGameOver());
-      
     
+    }
+    function setGameOver(){
+       if(computerScore === 5){
+           alert(` GAME OVER!!: ${computerScore}||${playerScore} click RESTART button`);
+           buttons.disabled = true
+        }else if(playerScore === 5){
+            alert(` GAME OVER!!: ${computerScore}||${playerScore} click RESTART button`);
+        }
+        
+      }
+
+   function restartGame(){
+    playerScore = 0;
+    computerScore= 0;
+    player.textContent =`PLAYER_SCORE: ${playerScore}`;
+    game.textContent = `COMP_SCORE :${computerScore}`
+
+   }
+  const btn = document.querySelector("#btn");
+  btn.addEventListener("click",restartGame)
