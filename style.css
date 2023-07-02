@@ -85,3 +85,7 @@ h1{
 .but{
     background-color: darkslategrey;
 }
+p{
+    font-size: 1.5rem;
+    color: gray;
+}
